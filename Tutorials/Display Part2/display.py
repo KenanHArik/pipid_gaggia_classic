@@ -8,6 +8,8 @@ Use misc draw commands to create a simple image.
 
 Ported from:
 https://github.com/adafruit/Adafruit_Python_SSD1306/blob/master/examples/shapes.py
+and 
+luma demo.py
 """
 import sys
 import time
