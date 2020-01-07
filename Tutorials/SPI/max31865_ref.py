@@ -85,7 +85,12 @@ conf_reg = out[0]
 print(f"config register byte: {conf_reg}")
 [rtd_msb, rtd_lsb] = [out[1], out[2]]
 rtd_ADC_Code = ((rtd_msb << 8) | rtd_lsb) >> 1
+
+
 temp_C = self.calcPT100Temp(rtd_ADC_Code)
+
+
+
 [hft_msb, hft_lsb] = [out[3], out[4]]
 hft = ((hft_msb << 8) | hft_lsb) >> 1
 print(f"high fault threshold: {hft}")
@@ -189,19 +194,3 @@ print(f"Status byte: {status}")
             # Should never get here in this application
             temp_C = (RTD_ADC_Code / 32) - 256
         return temp_C
-
-
-class FaultError(Exception):
-    pass
-
-
-if __name__ == "__main__":
-
-    import max31865
-    csPin = 8
-    misoPin = 9
-    mosiPin = 10
-    clkPin = 11
-    max = max31865.max31865(csPin, misoPin, mosiPin, clkPin)
-    tempC = max.readTemp()
-    GPIO.cleanup()
