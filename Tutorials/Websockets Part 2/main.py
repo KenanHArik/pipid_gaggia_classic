@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 from starlette.endpoints import WebSocketEndpoint, HTTPEndpoint
-from starlette.websockets import WebSocket
+from starlette.websockets import WebSocket, WebSocketState
 from starlette.responses import FileResponse
 import random
 import asyncio
@@ -31,44 +31,35 @@ class WSocket(WebSocketEndpoint):
     
     async def on_connect(self, websocket):
         await websocket.accept()
-        await self.main(websocket)  # awaiting blocking code
+        # create asyncronous tasks:
+        self.task2 = asyncio.create_task(self.give_random(websocket))
+        # self.task1 = asyncio.create_task(self.print_state(websocket))
+        # await self.main(websocket)  # awaiting blocking code
     
     async def on_disconnect(self, websocket, close_code):
+        self.task2.cancel()
+        websocket.application_state = WebSocketState.DISCONNECTED
+        assert websocket.client_state == WebSocketState.DISCONNECTED
+        # self.task1.cancel()
+        # print(websocket.client_state)
+        # print(websocket.application_state)
         print('Websocket Disconnected')
 
-    async def main(self, websocket):
-        try:
-            task2 = asyncio.create_task(self.give_random(websocket))
-            task1 = asyncio.create_task(self.get_message(websocket))
-            while True:
-                await asyncio.sleep(100) # blocking function to stay in try loop
-        except Exception as e:
-            print(f'Exception was {e}')
-            print(f'Attempting to cancel tasks')
-            try:
-                task1.cancel()
-            except:
-                print(f'Exception encounterd canceling Task1')
-            try:
-                task2.cancel()
-            except:
-                print(f'Exception encounterd canceling Task2')
-
-    async def get_message(self, websocket):
-        while True:
-            try:
-                data = await websocket.receive_text()
-                print(f'Received this {data}')
-            except:
-                print('Socket Receive exception')
-                break
+    async def on_receive(self, websocket, data):
+        print(f'Received this {data}')
 
     async def give_random(self, websocket):
-        while True:
-            try:
+        try:
+            while websocket.client_state == WebSocketState.CONNECTED:
                 rn = (random.random())
                 await websocket.send_text(f"Current Temperature is : {rn:.2f} C")
-                await asyncio.sleep(self.sleep)      
-            except:
-                print('Exception encountered while sending number')
-                break
+                await asyncio.sleep(self.sleep)
+        except Exception as e:
+            pass
+            # print(f'Exception encountered {e} while sending number')
+
+    # async def print_state(self, websocket):
+    #     while True:
+    #         print(f'print client state is {websocket.client_state}')
+    #         print(f'print application state is {websocket.application_state}')
+    #         await asyncio.sleep(1)
