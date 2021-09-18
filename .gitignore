@@ -131,3 +131,6 @@ dmypy.json
 # VSCode
 .vscode/*
 .vscode/settings.json
+
+# Manually coded legacy
+_Legacy/*
