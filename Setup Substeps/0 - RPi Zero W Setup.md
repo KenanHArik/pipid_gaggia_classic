@@ -1,5 +1,7 @@
 # Instruction on How to Set Up a Raspberry Pi Zero W (Headless)
 
+The following instructions go over first setup a Raspberry Pi for running the software of this repository.
+
 ## Setting up Raspberry Pi OS SD card
 
 1. Go to the [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) download site, and download the latest version of OS Lite. The Lite version is selected here since there won't be any desktop environment needed. Raspberry Pi OS was formally known as Raspbian.
@@ -60,3 +62,7 @@
 5. Once you have rebooted your Raspberry Pi, all other computers on your network should see it with the new hostname.  On the Raspberry Pi itself, you can check your hostname by issuing the command `hostname` in a terminal
 
     - For this project, the hostname was updated to `gaggiapi` since this will be used in a Gaggia espresso maker.
+
+6. If needed, set the timezone using the following command `sudo timedatectl set-timezone America/Los_Angeles` and reboot. Give some time for network to be re-established before reconnecting SSH. Other timezone options are available [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
+   - You can verify the correct time and date with the command `date`
