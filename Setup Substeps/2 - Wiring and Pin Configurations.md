@@ -17,14 +17,16 @@ The display is designed to occupy the top 6 pins of the header to operate over I
 
 The RTD temerature sensor operates over SPI. The following pin assingments are used to interact with the MAX31865 RTD amplifier
 
-Pi 3V (physical pin 17) to sensor VIN
-Pi SPI_MOSI (physical pin 19, BCM 10) to sensor SDI
-Pi SPI_MISO (physical pin 21, BCM 9) to sensor SDO
-Pi SPI_SCLK (physical pin 23, BCM 11) to sensor CLK
-Pi SPI_CE0 (physical pin 24, BCM 8) to sensor CS
-Pi GND (physical pin 25) to sensor GND
-
-
+- Pi 3.3V (physical pin 17) to sensor VIN
+- Pi SPI_MOSI (physical pin 19, BCM 10) to sensor SDI
+- Pi SPI_MISO (physical pin 21, BCM 9) to sensor SDO
+- Pi SPI_SCLK (physical pin 23, BCM 11) to sensor CLK
+- Pi SPI_CE0 (physical pin 24, BCM 8) to sensor CS
+- Pi GND (physical pin 20) to sensor GND
+- Sleep / Wake Switch GPIO to GND (25) and sense physical pin 26, BCM 7
+- Heater SSR Switch GPIO to GND (34) and PWM physical pin 33, BCM 13
+- Relay 1 5V (2), GND (14), GPIO physical pin 12, BCM 18
+- Relay 2 5V (2), GND (14), GPIO physical pin 11, BCM 17
 
 
 

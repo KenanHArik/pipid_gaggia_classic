@@ -1,11 +1,12 @@
 # Basic Check of the RTD Temperature Sensor
 
-The following code is included to test a basic sample of driving the display. The display used is a PiOLED I2C 0.91inch OLED Display Module, for Raspberry Pi 1/ Pi2/ Pi3/ Pi Zero. Its resolution is 128x32, and is driven by the I2C and compatible with the SSD1306 driver. The one I purchased was a generic one, but a specific Adafruit version can be found [here](https://github.com/adafruit/Adafruit_Python_SSD1306)
+The following code is included to test a basic sample of driving the platinum RTD temperature sensor. The sensor is amplified using the MAX31865 board module. Similar module can be found on [Adafruit](https://www.adafruit.com/product/3328)
 
-The library that was chosen to drive the display was [luma](https://luma-oled.readthedocs.io/en/latest/). I found its code to be clean and organized. A custom font is used here from Google Fonts, and included with the code reference to customize the size and look of the text.
+The module amplifies the resistance measurement, and the thermal sensor is a 3 wire setup with the same threading as the existing thermal switches in the Gaggia group head. After a measurement has been taken, math is used to form a fit of the data according to RTD physics and the parameters of the board resistors.
+
+PiGPIO library is used to drive communication to the amplifier via SPI interface.
 
 If all the dependencies of the library have been installed, a quick check to make sure the display is working well is to run the code in a python console:
-
 
 ```python
 import pigpio
@@ -15,10 +16,10 @@ import math
 pi = pigpio.pi()
 print(f'The PiGPIO service is online: {pi.connected}')
 bus = pi.spi_open(spi_channel=0, baud=500000, spi_flags=1)
-# Config Notes: v_bias, auto_conversion, one_shot, three_wire,clear_faults, fifty_hz
-wake_config = [1, 1, 0, 1, 0, 0]
-read_config = [1, 0, 1, 1, 0, 0]
-sleep_config = [0, 0, 0, 1, 0, 0]
+# Config Notes: [v_bias, auto_conversion, one_shot, three_wire, 0, 0, clear_faults, fifty_hz]
+wake_config = [1, 1, 0, 1, 0, 0, 0, 0]
+read_config = [1, 0, 1, 1, 0, 0, 0, 0]
+sleep_config = [0, 0, 0, 1, 0, 0, 0, 0]
 
 def set_config(pi, bus, config):
     x = [str(i) for i in config]
@@ -54,18 +55,17 @@ temp_C = (-a + math.sqrt(a**2 - 4 * b + 4 * b * R)) / (2 * b)
 
 print(f'The measured temperature is: {temp_C}')
 
-
 # in the end:
 pi.stop()
-        
-
+     
 ```
+
+Or if you want, you can continuously report values using the code below
 
 ```python
 import max31865
 import time
 ts = max31865.max31865()
-ts.read_all_registers()
 ts.set_config(
     v_bias=True,
     auto_conversion=False,
@@ -74,11 +74,8 @@ ts.set_config(
     clear_faults=False,
     fifty_hz=False
 )
-# ts.read_all_registers()
 ts.wake()
-# [rtd_msb, rtd_lsb] = ts.read_registers([0x01, 0x02])
 while True:
     time.sleep(0.05)
     ts.read_temp()
-
 ```
