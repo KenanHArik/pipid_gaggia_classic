@@ -13,11 +13,12 @@ Copy the following contents - make sure the path matches where you have items st
 
 ```bash
 [Unit]
-Description=pi_espresso Service
+Description=Raspberry Pi Espresso Service
 After=multi-user.target
 
 [Service]
-WorkingDirectory=/home/espresso/
+Type=idle
+User=espresso
 ExecStart=/usr/bin/python3 /home/espresso/pi_espresso.py
 Restart=always
 
