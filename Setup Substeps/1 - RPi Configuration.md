@@ -5,8 +5,17 @@ The following instructions go over how to configure the Raspberry Pi to run the 
 ## Installing Python Dependencies
 
 1. Install pip and git using command `sudo apt-get install git python3-pip`
-2. Clone the `pipid_gaggia_classic` repository using `git clone https://github.com/KenanHArik/pipid_gaggia_classic.git`
-3. After the repository is cloned, navigate into the repository folder `cd pipid_gaggia_classic` and install the python dependencies with `pip3 install -r requirements.txt`
+2. Get all the dependencies:
+
+For reference, the following have been installed:
+
+sudo apt-get install git python3 python3-pip python3-pil libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjp2-7 libtiff5 -y
+
+The above dependencies are required for luma oled library.
+sudo pip3 install luma.oled
+
+PID control is based on the library below
+pip3 install simple-pid
 
 ## Turn on I2C and SPI
 
@@ -21,20 +30,4 @@ The following instructions go over how to configure the Raspberry Pi to run the 
 3. Extract the installer `unzip master.zip` and navigate to the directory `cd pigpio-master`
 4. Run the installer with the commands `make` and `sudo make install`
 5. Install the pigpio specific packages `sudo apt-get install pigpio python-pigpio python3-pigpio`
-6. After the installation is successful, the dameon needs to run in the background. It can be started at boot with `sudo systemctl enable pigpiod` and turned on with `sudo systemctl start pigpiod`. To just get it running crudely without a service, use `sudo pigpiod`.
-
-
-
-
-```
-For reference, the following have been installed:
-
-sudo apt-get install git python3 python3-pip python3-pil libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjp2-7 libtiff5 -y
-
-The above dependencies are required for luma oled library.
-sudo pip3 install luma.oled
-
-The below was recommended by adafruit
-sudo pip3 install --upgrade setuptools
-sudo pip3 install RPi.GPIO
-```
+6. After the installation is successful, the dameon needs to run in the background. It can be started at boot with `sudo systemctl enable pigpiod` and turned on with `sudo systemctl start pigpiod`. Note: To just get it running crudely without a service, use `sudo pigpiod`.

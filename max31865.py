@@ -120,7 +120,7 @@ class max31865(object):
         adc_code = (rtd_msb + rtd_lsb)[:-1]
         return int(adc_code, 2)
 
-    def read_temp(self):
+    def read_temp(self, offset=0):
         adc_code = self.read_adc_code()
         if adc_code is None:
             pass
@@ -132,7 +132,7 @@ class max31865(object):
         Res_RTD = (adc_code * R_REF) / 32768.0  # PT100 Resistance
         R = Res_RTD / Res0
         temp_C = (-a + (a**2 - 4 * b + 4 * b * R)**0.5) / (2 * b)
-        return temp_C
+        return temp_C + offset
 
 
 # Example manual usage

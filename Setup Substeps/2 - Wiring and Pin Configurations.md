@@ -9,33 +9,29 @@ Notice there is a distinction between physical pins and BCM number.
 
 ## Display
 
-The display is designed to occupy the top 6 pins of the header to operate over I2C communication. This is shown in the image below. No pin assignments are changed from this design.
+The display is designed to occupy the top 6 pins of the header to operate over I2C communication. This is shown in the image below. No pin assignments are changed from this design. However, since the display is made remote of the Pi, pin 1 (3.3V) and pin 4 5V DC are not connected as they are not needed for the display.
 
 ![display](assets/2021-09-18-21-58-20.png)
 
 ## RTD Temperature Sensor
 
-The RTD temerature sensor operates over SPI. The following pin assingments are used to interact with the MAX31865 RTD amplifier
+The RTD temperature sensor operates over SPI. The following pin assignments are used to interact with the MAX31865 RTD amplifier
 
 - Pi 3.3V (physical pin 17) to sensor VIN
-- Pi SPI_MOSI (physical pin 19, BCM 10) to sensor SDI
-- Pi SPI_MISO (physical pin 21, BCM 9) to sensor SDO
+- Pi SPI_MOSI (physical pin 19, BCM 10) to sensor SD1
+- Pi SPI_MISO (physical pin 21, BCM 9) to sensor SD0
 - Pi SPI_SCLK (physical pin 23, BCM 11) to sensor CLK
 - Pi SPI_CE0 (physical pin 24, BCM 8) to sensor CS
 - Pi GND (physical pin 20) to sensor GND
+
+## Button for Sleep / Wake
+
 - Sleep / Wake Switch GPIO to GND (25) and sense physical pin 26, BCM 7
+
+## Switch for Brew / Steam Toggle
+
+- Brew / Steam Toggle switch GPIO to GND (39) and sense physical pin 40, BCM 21
+
+## SSR
+
 - Heater SSR Switch GPIO to GND (34) and PWM physical pin 33, BCM 13
-- Relay 1 5V (2), GND (14), GPIO physical pin 12, BCM 18
-- Relay 2 5V (2), GND (14), GPIO physical pin 11, BCM 17
-
-
-
-
-
-
-
-    _pump_out = 32  #BCM 32, physical pin 32
-    _heater_out = 18  #BCM 18, physical pin 12
-    _on_switch_in = 17  #BCM 17, physical pin 11
-    _steam_switch_in = 27  #BCM 27, physical pin 13
-    _brew_switch_in = 22  #BCM 22, physical pin 15

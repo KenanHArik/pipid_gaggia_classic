@@ -16,7 +16,7 @@ from luma.core.interface.serial import i2c
 serial = i2c(port=1, address=0x3C)
 device = ssd1306(serial, width=128, height=32)
 
-font_file = os.path.abspath("/home/pi/pipid_gaggia_classic/Mukta-Medium.ttf")
+font_file = os.path.abspath("/home/espresso/Mukta-Medium.ttf") # location must match where font file is
 Font = ImageFont.truetype(font_file, 14)
 
 with canvas(device) as draw:

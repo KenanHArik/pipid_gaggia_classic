@@ -16,7 +16,7 @@ import time
 serial = i2c(port=1, address=0x3C)
 device = ssd1306(serial, width=128, height=32)
 
-font_file = os.path.abspath("/home/pi/pipid_gaggia_classic/Mukta-Medium.ttf")
+font_file = os.path.abspath("/home/espresso/Mukta-Medium.ttf")
 Font = ImageFont.truetype(font_file, 20)
 
 ts = max31865.max31865()
