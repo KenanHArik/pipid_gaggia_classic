@@ -6,6 +6,8 @@ The library that was chosen to drive the display was [luma](https://luma-oled.re
 
 If all the dependencies of the library have been installed, a quick check to make sure the display is working well is to run the code in a python console:
 
+`source pipid/bin/activate` to start the python environment
+
 ```python
 import os
 from PIL import ImageFont
@@ -16,7 +18,7 @@ from luma.core.interface.serial import i2c
 serial = i2c(port=1, address=0x3C)
 device = ssd1306(serial, width=128, height=32)
 
-font_file = os.path.abspath("/home/espresso/Mukta-Medium.ttf") # location must match where font file is
+font_file = os.path.abspath("/home/pi/espresso/Mukta-Medium.ttf") # location must match where font file is
 Font = ImageFont.truetype(font_file, 14)
 
 with canvas(device) as draw:

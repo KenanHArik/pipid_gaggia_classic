@@ -105,7 +105,7 @@ ts.set_config(
 serial = i2c(port=1, address=0x3C)
 display = ssd1306(serial, width=128, height=32)
 font_file = os.path.abspath(
-    "/home/espresso/Mukta-Medium.ttf"
+    "/home/pi/espresso/Mukta-Medium.ttf"
 )  # location must match where font file is
 Font = ImageFont.truetype(font_file, 14)
 

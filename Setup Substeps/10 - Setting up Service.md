@@ -4,12 +4,12 @@ The Raspberry Pi will be configured to run the python script always so that it c
 
 To do this, there are a few ways, but the recommended way is to setup the python script as a service.
 
-Instructions for this were inspried from this site: https://www.thedigitalpictureframe.com/ultimate-guide-systemd-autostart-scripts-raspberry-pi/
+Instructions for this were inspired from this site: https://www.thedigitalpictureframe.com/ultimate-guide-systemd-autostart-scripts-raspberry-pi/
 
 Run the command to create the service file
 `sudo nano /etc/systemd/system/pi_espresso.service`
 
-Copy the following contents - make sure the path matches where you have items stored. In the case below, it is in /home/espresso/ directory
+Copy the following contents - make sure the path matches where you have items stored. In the case below, it is in /home/pi/espresso/ directory
 
 ```bash
 [Unit]
@@ -18,8 +18,8 @@ After=multi-user.target
 
 [Service]
 Type=idle
-User=espresso
-ExecStart=/usr/bin/python3 /home/espresso/pi_espresso.py
+User=pi
+ExecStart=/bin/bash -c "source /home/pi/pipid/bin/activate/ && /home/pi/espresso/pi_espresso.py"
 Restart=always
 
 [Install]
@@ -32,3 +32,5 @@ Change the file permissions
 Configure the system services, and set it to enabled.
 `sudo systemctl daemon-reload`
 `sudo systemctl enable pi_espresso.service`
+
+For further reference on system services, refer to https://www.fosslinux.com/50724/how-to-start-stop-and-restart-services-on-debian.htm
